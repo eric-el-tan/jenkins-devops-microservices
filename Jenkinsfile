@@ -27,7 +27,7 @@ pipeline {
         }
     }
 
-    pose {
+    post {
         always {
             echo 'Im awesome. I run always.'
         }
