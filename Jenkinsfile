@@ -9,14 +9,35 @@
 
 pipeline {
 //     agent any
-    agent { docker { image 'maven:3.6.3-jdk-11' } }
+    agent none
+//     agent {
+//         docker {
+//             image 'maven:3.6.3-jdk-11'
+//         }
+//     }
     stages {
-        stage('Build'){
+
+        stage("Fix the permission issue") {
+            agent any
+            steps {
+                sh "sudo chown root:jenkins /run/docker.sock"
+            }
+        }
+
+        stage('Step 1 - Build'){
+
+            agent {
+                docker {
+                    image 'maven:3.6.3-jdk-11'
+                }
+            }
+
             steps {
                 sh 'mvn --version'
                 echo "Build"
             }
         }
+
         stage('Test'){
             steps {
                 echo "Test"
